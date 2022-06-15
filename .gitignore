@@ -24,4 +24,7 @@ coverfile_out
 /vendor/
 /Godeps/
 
+### JetBrains ###
+.idea
+
 # End of https://www.gitignore.io/api/go
