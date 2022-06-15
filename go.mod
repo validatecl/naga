@@ -1,4 +1,4 @@
-module github.com/validatecl/commons/naga
+module github.com/validatecl/naga
 
 go 1.13
 
