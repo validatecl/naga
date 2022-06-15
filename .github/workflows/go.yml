@@ -1,0 +1,40 @@
+name: NagaGoWorkflow
+
+on:
+  push:
+    branches: [ "main", "develop" ]
+  pull_request:
+    branches: [ "main", "develop" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: 1.13
+
+    - name: Test
+      run: make test
+
+    - name: Coverage
+      run: make coverage
+
+##
+# stages:
+#   - test
+
+# variables:
+#   GOFLAGS: -mod=vendor
+
+# unit-test:
+#   stage: test
+#   image: f/golang:alpine
+#   script:
+#     - make test
+#     - make coverage
+#   only:
+#     - branches
