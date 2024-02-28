@@ -17,6 +17,8 @@ const (
 
 	noEntriesError = "No entries given"
 
+	noFilenameError = "No filename given"
+
 	valueError = "No value given to the variable through config file, enviroment variables or flag"
 
 	typeResolverError = "Error on ResolveType"
@@ -66,12 +68,12 @@ func (c *configurator) Configure(configFileName string, extension string, entrie
 		return nil, errors.New(noEntriesError)
 	}
 
+	if len(configFileName) == 0 {
+		return nil, errors.New(noFilenameError)
+	}
+
 	//Configuration for yaml file
 	if len(configFileName) > 0 && len(extension) > 0 {
-		if err := configFileConfiguration(configFileName, extension); err != nil {
-			return nil, err
-		}
-	} else if len(configFileName) > 0 || len(extension) > 0 {
 		if err := configFileConfiguration(configFileName, extension); err != nil {
 			return nil, err
 		}
