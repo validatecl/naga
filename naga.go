@@ -71,6 +71,10 @@ func (c *configurator) Configure(configFileName string, extension string, entrie
 		if err := configFileConfiguration(configFileName, extension); err != nil {
 			return nil, err
 		}
+	} else if len(configFileName) > 0 || len(extension) > 0 {
+		if err := configFileConfiguration(configFileName, extension); err != nil {
+			return nil, err
+		}
 	}
 
 	//Configuration for enviromental variables on the system
