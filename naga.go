@@ -22,7 +22,7 @@ const (
 	typeResolverError = "Error on ResolveType"
 )
 
-//ConfigEntry entrada de configuración
+// ConfigEntry entrada de configuración
 type ConfigEntry struct {
 	VariableName string
 	Description  string
@@ -30,7 +30,7 @@ type ConfigEntry struct {
 	DefaultValue interface{}
 }
 
-//CfgBase configuración basica de la API
+// CfgBase configuración basica de la API
 type CfgBase struct {
 	Port           string
 	LoggingLevel   string
@@ -40,18 +40,18 @@ type CfgBase struct {
 	URIPrefix      string
 }
 
-//Configurator Interfaz configurador de Naga
+// Configurator Interfaz configurador de Naga
 type Configurator interface {
-	Configure(configFileName string, entries []ConfigEntry) (map[string]interface{}, error)
+	Configure(configFileName string, extension string, entries []ConfigEntry) (map[string]interface{}, error)
 }
 
-//configurator type
+// configurator type
 type configurator struct {
 	flagConfigurator FlagConfigurator
 	typeResolver     VariableTypeResolver
 }
 
-//NewConfigurator constructor
+// NewConfigurator constructor
 func NewConfigurator(flagConfigurator FlagConfigurator, typeResolver VariableTypeResolver) Configurator {
 	return &configurator{
 		flagConfigurator: flagConfigurator,
@@ -59,16 +59,16 @@ func NewConfigurator(flagConfigurator FlagConfigurator, typeResolver VariableTyp
 	}
 }
 
-//Configure method
-func (c *configurator) Configure(configFileName string, entries []ConfigEntry) (map[string]interface{}, error) {
+// Configure method
+func (c *configurator) Configure(configFileName string, extension string, entries []ConfigEntry) (map[string]interface{}, error) {
 
 	if len(entries) == 0 {
 		return nil, errors.New(noEntriesError)
 	}
 
 	//Configuration for yaml file
-	if len(configFileName) > 0 {
-		if err := configFileConfiguration(configFileName); err != nil {
+	if len(configFileName) > 0 && len(extension) > 0 {
+		if err := configFileConfiguration(configFileName, extension); err != nil {
 			return nil, err
 		}
 	}
@@ -145,10 +145,10 @@ func viperConfiguration(name string, entry ConfigEntry, valType VariableType) in
 /*
 Uses viper to read the yaml
 */
-func configFileConfiguration(filename string) error {
+func configFileConfiguration(filename string, extension string) error {
 	viper.SetConfigName(filename)
 	viper.AddConfigPath(".")
-	viper.SetConfigType("yaml")
+	viper.SetConfigType(extension)
 	if err := viper.ReadInConfig(); err != nil {
 		return errors.New(configError)
 	}
