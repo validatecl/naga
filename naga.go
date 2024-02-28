@@ -40,7 +40,7 @@ type CfgBase struct {
 	URIPrefix      string
 }
 
-// Configurator Interfaz configurador de Naga
+// Configurator Interfaz configurador de Naga.
 type Configurator interface {
 	Configure(configFileName string, extension string, entries []ConfigEntry) (map[string]interface{}, error)
 }
