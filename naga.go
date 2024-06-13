@@ -2,6 +2,7 @@ package naga
 
 import (
 	"errors"
+	"fmt"
 	"reflect"
 	"strconv"
 	"time"
@@ -162,7 +163,7 @@ func configFileConfiguration(filename string, extension string) error {
 	viper.AddConfigPath(".")
 	viper.SetConfigType(extension)
 	if err := viper.ReadInConfig(); err != nil {
-		return errors.New(configError + " " + err.Error())
+		return errors.New(fmt.Sprintf("%s (%s)", configError, err.Error()))
 	}
 	return nil
 }
