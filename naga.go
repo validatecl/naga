@@ -162,7 +162,7 @@ func configFileConfiguration(filename string, extension string) error {
 	viper.AddConfigPath(".")
 	viper.SetConfigType(extension)
 	if err := viper.ReadInConfig(); err != nil {
-		return errors.New(configError)
+		return errors.New(configError + " " + err.Error())
 	}
 	return nil
 }
