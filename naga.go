@@ -19,6 +19,8 @@ const (
 
 	noFilenameError = "No filename given"
 
+	noExtensionError = "No extension given"
+
 	valueError = "No value given to the variable through config file, enviroment variables or flag"
 
 	typeResolverError = "Error on ResolveType"
@@ -68,18 +70,22 @@ func (c *configurator) Configure(configFileName string, extension string, entrie
 		return nil, errors.New(noEntriesError)
 	}
 
+	// Establecer valores predeterminados si no se proporcionan configFileName o extension
 	if len(configFileName) == 0 {
-		return nil, errors.New(noFilenameError)
+		configFileName = "config"
+	}
+	if len(extension) == 0 {
+		extension = "env"
 	}
 
-	//Configuration for yaml file
-	if len(configFileName) > 0 && len(extension) > 0 {
+	// Configuration for file with specific extensions
+	if len(extension) > 0 {
 		if err := configFileConfiguration(configFileName, extension); err != nil {
 			return nil, err
 		}
 	}
 
-	//Configuration for enviromental variables on the system
+	// Configuration for environmental variables on the system
 	viper.AutomaticEnv()
 
 	//Configuration for flags
